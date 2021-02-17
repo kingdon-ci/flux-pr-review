@@ -14,6 +14,7 @@ module PutIn
         ws: session.spreadsheet_by_key(spreadsheet_id).worksheets[0]
       }
 
+      check_for_safety!
       call
     end
 
@@ -22,8 +23,13 @@ module PutIn
     end
 
     def call
+      binding.pry
+    end
+
+    def check_for_safety!
       if ws[1, 1] == '' && ws[2, 1] == ''
-        binding.pry
+        # it is probably safe to proceed, there is no data in the worksheet to
+        # overwrite
       else
         raise StandardError, "worksheet already has data, cowardly aborting"
       end
