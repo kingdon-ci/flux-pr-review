@@ -20,6 +20,10 @@ module Make
       call
     end
 
+    def old_ws
+      self[:old_ws]
+    end
+
     def new_ws
       self[:new_ws]
     end
@@ -37,7 +41,27 @@ module Make
     end
 
     def call
-      binding.pry
+      holding_tank = {}
+
+      old_ws.rows.each_with_index do |row, index|
+        next if index == 0
+        key = row[2]
+        holding_tank[key] = row
+      end
+
+      new_ws.rows.each_with_index do |row, index|
+        next if index == 0
+        matching_row = holding_tank[row[2]]
+
+        if matching_row.present?
+          new_ws[index + 1, 11] = matching_row[10]
+          new_ws[index + 1, 13] = matching_row[12]
+          new_ws[index + 1, 15] = matching_row[14]
+          new_ws[index + 1, 16] = matching_row[15]
+        end
+      end
+
+      new_ws.save
     end
   end
 end
