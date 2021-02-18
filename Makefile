@@ -10,7 +10,7 @@ doit: pr.csv
 
 .PHONY: clean
 clean:
-	rm pr.csv
+	rm -f pr.csv
 
 .PHONY: deps
 deps:
