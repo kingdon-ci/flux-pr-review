@@ -43,15 +43,19 @@ module Make
         end
 
         begin
-          days_age = Date.today - Date.parse(ws[y, 7])
+          days_age = Date.today - Date.parse(ws[y, 7]) # Created Date
           ws[y, 9] = days_age.to_i
-          days_stale = Date.today - Date.parse(ws[y, 8])
+          days_stale = Date.today - Date.parse(ws[y, 8]) # Updated Date
           ws[y, 10] = days_stale.to_i
         rescue Date::Error => e
-          binding.pry
+          # binding.pry
         end
-        ws[11, y] = '' # Recommend Action
-        ws[12, y] = first_spreadsheet[9, y] # URL
+        ws[y, 11] = '' # Recommend Action - this is blank for now
+        ws[y, 12] = first_spreadsheet[y, 9] # URL
+        ws[y, 13] = 'No' # Read yet?
+        ws[y, 14] = 'URL' # Link
+        ws[y, 15] = 'Asdf' # Comment
+        ws[y, 16] = '⎈' # Flag
       end
       ws.save
     end
