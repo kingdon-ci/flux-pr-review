@@ -2,6 +2,7 @@ require 'forwardable'
 require 'csv'
 
 module PutIn
+  class AlreadyDid < StandardError; end
   class Spreadsheet
     extend Forwardable
     def_delegators :@properties, :[], :[]=
@@ -13,13 +14,18 @@ module PutIn
       @properties = {
         session: session,
         ws: session.spreadsheet_by_key(spreadsheet_id).worksheets[0],
-        input_filename: input_file
+        input_filename: input_file,
+        spreadsheet_id: spreadsheet_id
       }
 
       self[:pr_csv] = CSV.read(input_filename)
 
-      check_for_safety!
-      call
+      begin
+        check_for_safety!
+        call
+      rescue AlreadyDid
+        # already did this part, signaled by check_for_safety!
+      end
     end
 
     def ws
@@ -34,6 +40,10 @@ module PutIn
       self[:input_filename]
     end
 
+    def spreadsheet_id
+      self[:spreadsheet_id]
+    end
+
     def call
       num_rows, num_cols = input_csv.length, input_csv[0].length
 
@@ -43,7 +53,17 @@ module PutIn
           input_value = input_csv&.[](row-1)&.[](col-1)
 
           if input_value.present?
-            ws[row, col] = input_value
+            if col == 7 || col == 8
+              begin
+                parsed_date =
+                  Date.strptime(input_value, "%m/%d/%y %H:%M:%S")
+              rescue Date::Error => e
+                parsed_date = input_value
+              end
+              ws[row, col] = parsed_date
+            else
+              ws[row, col] = input_value
+            end
           end
         end
       end
@@ -56,7 +76,7 @@ module PutIn
         # it is probably safe to proceed, there is no data in the worksheet to
         # overwrite
       else
-        raise StandardError, "worksheet already has data, cowardly aborting"
+        raise AlreadyDid, "worksheet already has data, cowardly aborting"
       end
     end
   end
