@@ -8,10 +8,12 @@ Bundler.require(:default)
 
 require './lib/put_in_spreadsheet'
 require './lib/make_worksheet'
+require './lib/make_copy_state'
 
 o = PutIn::Spreadsheet.new(
   spreadsheet_id: "1cPN5gfuor4mJ1jOsM9IEHtJ1E-OjC38TJb_VP2cQbN0")
 
 m = Make::Worksheet.new(first_spreadsheet: o)
+d = Make::CopyState.new(new_worksheet: m)
 
 # end

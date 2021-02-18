@@ -10,16 +10,21 @@ module Make
     def initialize(first_spreadsheet:,
       second_sheet_label: "Feb pr with fixed dates")
       session = first_spreadsheet[:session]
+      id = first_spreadsheet.spreadsheet_id
 
       @properties = {
         session: session,
-        ws: session.spreadsheet_by_key(first_spreadsheet.spreadsheet_id).worksheets[1],
-        first_spreadsheet: first_spreadsheet
+        ws: session.spreadsheet_by_key(id).worksheets[1],
+        first_spreadsheet: first_spreadsheet,
+        spreadsheet_id: id
       }
       @name = second_sheet_label
 
-      check_for_safety!
-      call
+      begin
+        check_for_safety!
+        call
+      rescue AlreadyDid
+      end
     end
 
     def ws
@@ -52,10 +57,10 @@ module Make
         end
         ws[y, 11] = '' # Recommend Action - this is blank for now
         ws[y, 12] = first_spreadsheet[y, 9] # URL
-        ws[y, 13] = 'No' # Read yet?
+        ws[y, 13] = '' # Read yet?
         ws[y, 14] = %Q|=HYPERLINK(L#{y}, REPLACE(L#{y}, 1, 31, ""))| # Link
-        ws[y, 15] = 'Asdf' # Comment
-        ws[y, 16] = '⎈' # Flag
+        ws[y, 15] = '' # Comment
+        ws[y, 16] = '' # Flag
       end
       ws.save
     end
