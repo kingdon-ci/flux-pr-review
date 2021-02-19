@@ -49,7 +49,7 @@ module Make
 
         begin
           stale_age = %Q|=LOG10(J2+1*K2+1)| # (derived) Stale-Age
-          ws[y, 9] = stale_age.to_i
+          ws[y, 9] = stale_age
           days_age = Date.today - Date.parse(ws[y, 7]) # Created Date
           ws[y, 10] = days_age.to_i
           days_stale = Date.today - Date.parse(ws[y, 8]) # Updated Date
@@ -60,7 +60,7 @@ module Make
         ws[y, 12] = '' # Recommend Action - this is blank for now
         ws[y, 13] = first_spreadsheet[y, 9] # URL
         ws[y, 14] = '' # Read yet?
-        ws[y, 15] = %Q|=HYPERLINK(L#{y}, REPLACE(L#{y}, 1, 31, ""))| # Link
+        ws[y, 15] = %Q|=HYPERLINK(M#{y}, REPLACE(M#{y}, 1, 31, ""))| # Link
         ws[y, 16] = '' # Comment
         ws[y, 17] = '' # Flag
       end
