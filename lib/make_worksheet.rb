@@ -8,7 +8,7 @@ module Make
     def_delegators :@properties, :[], :[]=
 
     def initialize(first_spreadsheet:,
-      second_sheet_label: "Feb pr with fixed dates")
+      second_sheet_label: "Feb pr(2) with fixed dates")
       session = first_spreadsheet[:session]
       id = first_spreadsheet.spreadsheet_id
 
@@ -48,25 +48,27 @@ module Make
         end
 
         begin
+          stale_age = %Q|=LOG10(J2+1*K2+1)| # (derived) Stale-Age
+          ws[y, 9] = stale_age.to_i
           days_age = Date.today - Date.parse(ws[y, 7]) # Created Date
-          ws[y, 9] = days_age.to_i
+          ws[y, 10] = days_age.to_i
           days_stale = Date.today - Date.parse(ws[y, 8]) # Updated Date
-          ws[y, 10] = days_stale.to_i
+          ws[y, 11] = days_stale.to_i
         rescue Date::Error => e
           # binding.pry
         end
-        ws[y, 11] = '' # Recommend Action - this is blank for now
-        ws[y, 12] = first_spreadsheet[y, 9] # URL
-        ws[y, 13] = '' # Read yet?
-        ws[y, 14] = %Q|=HYPERLINK(L#{y}, REPLACE(L#{y}, 1, 31, ""))| # Link
-        ws[y, 15] = '' # Comment
-        ws[y, 16] = '' # Flag
+        ws[y, 12] = '' # Recommend Action - this is blank for now
+        ws[y, 13] = first_spreadsheet[y, 9] # URL
+        ws[y, 14] = '' # Read yet?
+        ws[y, 15] = %Q|=HYPERLINK(L#{y}, REPLACE(L#{y}, 1, 31, ""))| # Link
+        ws[y, 16] = '' # Comment
+        ws[y, 17] = '' # Flag
       end
       ws.save
     end
 
     def header
-      [ "Repository", "Type", "#", "User", "Title", "State", "Created", "Updated", "Days-Age", "Days-Stale", "Recommend Action", "URL", "Read yet?", "Link", "Comment", "Flag" ]
+      [ "Repository", "Type", "#", "User", "Title", "State", "Created", "Updated", "Stale-Age", "Days-Age", "Days-Stale", "Recommend Action", "URL", "Read yet?", "Link", "Comment", "Flag" ]
     end
 
     def check_sheet_name!
