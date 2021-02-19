@@ -48,7 +48,7 @@ module Make
         end
 
         begin
-          stale_age = %Q|=LOG10(J2+1*K2+1)| # (derived) Stale-Age
+          stale_age = %Q|=LOG10(J#{y}+1*K#{y}+1)| # (derived) Stale-Age
           ws[y, 9] = stale_age
           days_age = Date.today - Date.parse(ws[y, 7]) # Created Date
           ws[y, 10] = days_age.to_i
