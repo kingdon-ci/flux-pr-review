@@ -8,7 +8,7 @@ module Make
     def_delegators :@properties, :[], :[]=
 
     def initialize(first_spreadsheet:,
-      second_sheet_label: "Mar pr (state copy-to)")
+      second_sheet_label: "Apr pr (state copy-to)")
       session = first_spreadsheet[:session]
       id = first_spreadsheet.spreadsheet_id
 

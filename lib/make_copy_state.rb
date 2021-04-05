@@ -6,7 +6,7 @@ module Make
     def_delegators :@properties, :[], :[]=
 
     def initialize(new_worksheet:,
-      old_sheet_label: "Mar pr (state store)")
+      old_sheet_label: "Apr pr (state store)")
       session = new_worksheet[:session]
       id = new_worksheet[:spreadsheet_id]
 
