@@ -229,7 +229,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  export-pull-requests (~> 0.3.3)
+  export-pull-requests (= 0.3.4)
   google_drive
   pry-rails
   rails (~> 6.1)
