@@ -60,7 +60,7 @@ module Make
         ws[y, 12] = '' # Recommend Action - this is blank for now
         ws[y, 13] = first_spreadsheet[y, 9] # URL
         ws[y, 14] = '' # Read yet?
-        ws[y, 15] = %Q|=HYPERLINK(M#{y}, REPLACE(M#{y}, 1, 31, ""))| # Link
+        ws[y, 15] = %Q|=HYPERLINK(M#{y}, REPLACE(M#{y}, 1, 20+LEN(A#{y}), ""))| # Link
         ws[y, 16] = '' # Comment
         ws[y, 17] = '' # Flag
       end
