@@ -14,9 +14,13 @@ clean:
 
 .PHONY: doit
 doit: review.csv
-	rvm $(shell cat .ruby-version) do bundle exec ./googlify review.csv
+	rvm $(shell cat .ruby-version) do bundle exec ./bugcrush.rb review.csv
 	# do it
 
 .PHONY: deps
 deps:
 	rvm $(shell cat .ruby-version) do bundle install
+
+.PHONY: test
+test:
+	rvm $(shell cat .ruby-version) do bundle exec srb tc
