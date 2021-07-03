@@ -1,22 +1,23 @@
-# typed: true
+# typed: strict
 require 'forwardable'
+require 'csv'
 
-module Make
+module BugCrush
   class InvalidHeader < StandardError; end
   class AlreadyDid < StandardError; end
   class Worksheet
     extend Forwardable
     def_delegators :@properties, :[], :[]=
 
-    def initialize(first_spreadsheet:,
-      second_sheet_label: "Jun pr (state copy-to)")
-      session = first_spreadsheet[:session]
-      id = first_spreadsheet.spreadsheet_id
+    def initialize(spreadsheet:,
+      second_sheet_label: "0001")
+      session = spreadsheet[:session]
+      id = spreadsheet.spreadsheet_id
 
       @properties = {
         session: session,
         ws: session.spreadsheet_by_key(id).worksheets[1],
-        first_spreadsheet: first_spreadsheet,
+        first_spreadsheet: spreadsheet,
         spreadsheet_id: id
       }
       @name = second_sheet_label
@@ -59,7 +60,7 @@ module Make
           # binding.pry
         end
         ws[y, 12] = '' # Recommend Action - this is blank for now
-        ws[y, 13] = first_spreadsheet[y, 9] # URL
+        ws[y, 13] = first_spreadsheet[y, 10] # URL
         ws[y, 14] = '' # Read yet?
         ws[y, 15] = %Q|=HYPERLINK(M#{y}, REPLACE(M#{y}, 1, 20+LEN(A#{y}), ""))| # Link
         ws[y, 16] = '' # Comment

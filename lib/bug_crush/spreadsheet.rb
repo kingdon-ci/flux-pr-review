@@ -1,23 +1,28 @@
-# typed: true
+# typed: strict
 require 'forwardable'
 require 'csv'
 
-module PutIn
+module BugCrush
   class AlreadyDid < StandardError; end
   class Spreadsheet
     extend Forwardable
     def_delegators :@properties, :[], :[]=
 
-    def initialize(config_json: "config.json", spreadsheet_id:, input_file: 'pr.csv')
-      @spreadsheet_id = spreadsheet_id
-      session = GoogleDrive::Session.from_config(config_json)
+    def initialize(google_sheet_id:, scrub_event_id:, previous_event_id:)
+      @spreadsheet_id = google_sheet_id
+      @config = Config.new
+      session = GoogleDrive::Session.from_config(@config.config_json)
 
       @properties = {
-        session: session,
-        ws: session.spreadsheet_by_key(spreadsheet_id).worksheets[0],
-        input_filename: input_file,
-        spreadsheet_id: spreadsheet_id
+        google_sheet_id:   "1NrQ8GQFyb257BFOf_ozWRNbcvBWBY1cP9rYJWc3Ooss",
+        scrub_event_id:    scrub_event_id,
+        previous_event_id: previous_event_id,
+        session:           session,
+        input_filename:    @config.input_file,
       }
+
+      @properties[:ws] =
+        session.spreadsheet_by_key(spreadsheet_id).worksheets[0]
 
       self[:pr_csv] = CSV.read(input_filename)
 
@@ -42,7 +47,7 @@ module PutIn
     end
 
     def spreadsheet_id
-      self[:spreadsheet_id]
+      self[:google_sheet_id]
     end
 
     def call
