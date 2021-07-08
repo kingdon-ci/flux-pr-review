@@ -14,7 +14,7 @@ module BugCrush
       session = GoogleDrive::Session.from_config(@config.config_json)
 
       @properties = {
-        google_sheet_id:   "1NrQ8GQFyb257BFOf_ozWRNbcvBWBY1cP9rYJWc3Ooss",
+        google_sheet_id:   google_sheet_id,
         scrub_event_id:    scrub_event_id,
         previous_event_id: previous_event_id,
         session:           session,

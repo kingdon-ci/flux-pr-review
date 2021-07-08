@@ -12,7 +12,8 @@ require './lib/bug_crush'
 # require './lib/make_copy_state'
 
 o = BugCrush::Spreadsheet.
-  new(google_sheet_id: "XXXX", scrub_event_id: "0001", previous_event_id: nil)
+  new(google_sheet_id: "1NrQ8GQFyb257BFOf_ozWRNbcvBWBY1cP9rYJWc3Ooss",
+      scrub_event_id: "0002", previous_event_id: "0001")
 
 success = o.call
 
@@ -22,12 +23,24 @@ if success
   success = w.call
 else
   puts "Error during BugCrush::Spreadsheet.call"
+  Kernel.exit(1)
+end
+
+if success
+  n = BugCrush::CopyState.
+    new(spreadsheet: o,
+        new_worksheet: w)
+  success = n.call
+else
+  puts "Error during BugCrush::Worksheet.call"
+  Kernel.exit(1)
 end
 
 if success
   puts "Success, go visit the spreadsheet"
 else
-  puts "Error during BugCrush::Worksheet.call"
+  puts "Error during BugCrush::CopyState.call"
+  Kernel.exit(1)
 end
 
 # m = Make::Worksheet.new(first_spreadsheet: o)
