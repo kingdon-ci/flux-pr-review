@@ -10,17 +10,24 @@ module BugCrush
     def_delegators :@properties, :[], :[]=
 
     def initialize(spreadsheet:,
-      second_sheet_label: "0001")
+      new_worksheet_label:)
       session = spreadsheet[:session]
       id = spreadsheet.spreadsheet_id
 
+      @name = new_worksheet_label
+      new_worksheet = session.
+        spreadsheet_by_key(id).worksheet_by_title(@name)
+
+      if new_worksheet.blank?
+        raise StandardError, "Create a new worksheet with title: '#{@name}'"
+      end
+
       @properties = {
         session: session,
-        ws: session.spreadsheet_by_key(id).worksheets[1],
+        ws: new_worksheet,
         first_spreadsheet: spreadsheet,
         spreadsheet_id: id
       }
-      @name = second_sheet_label
 
       begin
         check_for_safety!

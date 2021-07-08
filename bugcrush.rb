@@ -12,14 +12,14 @@ require './lib/bug_crush'
 # require './lib/make_copy_state'
 
 o = BugCrush::Spreadsheet.
-  new(google_sheet_id: "1NrQ8GQFyb257BFOf_ozWRNbcvBWBY1cP9rYJWc3Ooss",
+  new(google_sheet_id: "1viBrqoD6FmYmXDPogrSAVHBccn75lX67GFgaFEcJj1A",
       scrub_event_id: "0002", previous_event_id: "0001")
 
 success = o.call
 
 if success
   w = BugCrush::Worksheet.
-    new(spreadsheet: o)
+    new(spreadsheet: o, new_worksheet_label: "0002")
   success = w.call
 else
   puts "Error during BugCrush::Spreadsheet.call"
