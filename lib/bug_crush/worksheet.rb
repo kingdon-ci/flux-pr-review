@@ -25,15 +25,10 @@ module BugCrush
       @properties = {
         session: session,
         ws: new_worksheet,
-        first_spreadsheet: spreadsheet,
+        spreadsheet: spreadsheet,
         spreadsheet_id: id
       }
 
-      begin
-        check_for_safety!
-        call
-      rescue AlreadyDid
-      end
     end
 
     def ws
@@ -41,7 +36,7 @@ module BugCrush
     end
 
     def first_spreadsheet
-      self[:first_spreadsheet].ws
+      self[:spreadsheet].ws
     end
 
     def sheet_name
@@ -49,6 +44,9 @@ module BugCrush
     end
 
     def call
+      begin
+        check_for_safety!
+
       (1..first_spreadsheet.num_rows).each do |y|
         next if y == 1
 
@@ -74,6 +72,12 @@ module BugCrush
         ws[y, 17] = '' # Flag
       end
       ws.save
+
+      rescue AlreadyDid
+        return false
+      end
+
+      return true
     end
 
     def header

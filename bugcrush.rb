@@ -23,16 +23,17 @@ if success
   success = w.call
 else
   puts "Error during BugCrush::Spreadsheet.call"
+  puts "hint: will not overwrite the Scratch sheet, select all and delete everything to proceed"
   Kernel.exit(1)
 end
 
 if success
   n = BugCrush::CopyState.
-    new(spreadsheet: o,
-        new_worksheet: w)
+    new(new_worksheet: w)
   success = n.call
 else
   puts "Error during BugCrush::Worksheet.call"
+  puts "hint: create a new worksheet, copy the header row, and update the config to proceed"
   Kernel.exit(1)
 end
 
@@ -40,10 +41,6 @@ if success
   puts "Success, go visit the spreadsheet"
 else
   puts "Error during BugCrush::CopyState.call"
+  puts "hint: there be dragons, (now go write the rest of the method)"
   Kernel.exit(1)
 end
-
-# m = Make::Worksheet.new(first_spreadsheet: o)
-# d = Make::CopyState.new(new_worksheet: m)
-
-# end

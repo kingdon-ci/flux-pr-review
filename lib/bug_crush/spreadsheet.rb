@@ -22,16 +22,10 @@ module BugCrush
       }
 
       @properties[:ws] =
-        session.spreadsheet_by_key(spreadsheet_id).worksheets[0]
+        session.spreadsheet_by_key(spreadsheet_id).worksheet_by_title("Scratch")
 
       self[:pr_csv] = CSV.read(input_filename)
 
-      begin
-        check_for_safety!
-        call
-      rescue AlreadyDid
-        # already did this part, signaled by check_for_safety!
-      end
     end
 
     def ws
@@ -51,6 +45,9 @@ module BugCrush
     end
 
     def call
+      begin
+        check_for_safety!
+
       num_rows, num_cols = input_csv.length, input_csv[0].length
 
       (1..num_rows).each do |row|
@@ -75,6 +72,13 @@ module BugCrush
       end
 
       ws.save
+
+      rescue AlreadyDid
+        # already did this part, signaled by check_for_safety!
+        return false # failure
+      end
+
+      return true # success
     end
 
     def check_for_safety!
