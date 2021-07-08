@@ -10,23 +10,25 @@ module BugCrush
     def_delegators :@properties, :[], :[]=
 
     def initialize(spreadsheet:,
-      second_sheet_label: "0001")
+      new_worksheet_label:)
       session = spreadsheet[:session]
       id = spreadsheet.spreadsheet_id
 
+      @name = new_worksheet_label
+      new_worksheet = session.
+        spreadsheet_by_key(id).worksheet_by_title(@name)
+
+      if new_worksheet.blank?
+        raise StandardError, "Create a new worksheet with title: '#{@name}'"
+      end
+
       @properties = {
         session: session,
-        ws: session.spreadsheet_by_key(id).worksheets[1],
-        first_spreadsheet: spreadsheet,
+        ws: new_worksheet,
+        spreadsheet: spreadsheet,
         spreadsheet_id: id
       }
-      @name = second_sheet_label
 
-      begin
-        check_for_safety!
-        call
-      rescue AlreadyDid
-      end
     end
 
     def ws
@@ -34,7 +36,7 @@ module BugCrush
     end
 
     def first_spreadsheet
-      self[:first_spreadsheet].ws
+      self[:spreadsheet].ws
     end
 
     def sheet_name
@@ -42,6 +44,9 @@ module BugCrush
     end
 
     def call
+      begin
+        check_for_safety!
+
       (1..first_spreadsheet.num_rows).each do |y|
         next if y == 1
 
@@ -67,6 +72,12 @@ module BugCrush
         ws[y, 17] = '' # Flag
       end
       ws.save
+
+      rescue AlreadyDid
+        return false
+      end
+
+      return true
     end
 
     def header
