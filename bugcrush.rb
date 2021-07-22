@@ -20,13 +20,10 @@ end
 
 config =
   if ARGV[1] == "v1"
-    puts "TODO: set up config for fluxv1 bug scrub tenant"
-    Kernel.exit(1)
-    # fill out this template with the structure from a prior Flux v1 worksheet:
     {
-      google_sheet_id:   "",
-      scrub_event_id:    "",
-      previous_event_id: "",
+      google_sheet_id:   "1DBpqlv36PwQu5-QlY24S2XDkEnkxWWxo46igMtBiwAo",
+      scrub_event_id:    "Q3 (0001)",
+      previous_event_id: "Q2 (Final)",
       csvinput_filename: ARGV[0]
     }
   elsif ARGV[1] == "v2"
