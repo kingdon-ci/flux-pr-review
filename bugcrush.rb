@@ -47,7 +47,7 @@ success = o.call
 
 if success
   w = BugCrush::Worksheet.
-    new(spreadsheet: o, new_worksheet_label: "0003")
+    new(spreadsheet: o, new_worksheet_label: config[:scrub_event_id])
   success = w.call
 else
   puts "Error during BugCrush::Spreadsheet.call"
