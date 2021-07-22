@@ -11,9 +11,37 @@ require './lib/bug_crush'
 # require './lib/make_worksheet'
 # require './lib/make_copy_state'
 
-o = BugCrush::Spreadsheet.
-  new(google_sheet_id: "1rJ994hMfZZr1ehjpFeZ4HJiPNOHmpnAIFqURR_-WY7A",
-      scrub_event_id: "0003", previous_event_id: "0002")
+usage_msg = "Usage: #{__FILE__} <input.csv> (v1|v2)"
+
+if ARGV.length != 2
+  puts usage_msg
+  Kernel.exit(1)
+end
+
+config =
+  if ARGV[1] == "v1"
+    puts "TODO: set up config for fluxv1 bug scrub tenant"
+    Kernel.exit(1)
+    # fill out this template with the structure from a prior Flux v1 worksheet:
+    {
+      google_sheet_id:   "",
+      scrub_event_id:    "",
+      previous_event_id: "",
+      csvinput_filename: ARGV[0]
+    }
+  elsif ARGV[1] == "v2"
+    {
+      google_sheet_id:   "1rJ994hMfZZr1ehjpFeZ4HJiPNOHmpnAIFqURR_-WY7A",
+      scrub_event_id:    "0004",
+      previous_event_id: "0003",
+      csvinput_filename: ARGV[0]
+    }
+  else
+    puts usage_msg
+    Kernel.exit(1)
+  end
+
+o = BugCrush::Spreadsheet.new(**config)
 
 success = o.call
 
