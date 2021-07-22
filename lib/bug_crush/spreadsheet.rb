@@ -8,9 +8,9 @@ module BugCrush
     extend Forwardable
     def_delegators :@properties, :[], :[]=
 
-    def initialize(google_sheet_id:, scrub_event_id:, previous_event_id:)
+    def initialize(google_sheet_id:, scrub_event_id:, previous_event_id:, csvinput_filename:)
       @spreadsheet_id = google_sheet_id
-      @config = Config.new
+      @config = Config.new(input_file: csvinput_filename)
       session = GoogleDrive::Session.from_config(@config.config_json)
 
       @properties = {
