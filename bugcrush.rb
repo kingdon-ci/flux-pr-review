@@ -11,15 +11,40 @@ require './lib/bug_crush'
 # require './lib/make_worksheet'
 # require './lib/make_copy_state'
 
-o = BugCrush::Spreadsheet.
-  new(google_sheet_id: "1rJ994hMfZZr1ehjpFeZ4HJiPNOHmpnAIFqURR_-WY7A",
-      scrub_event_id: "0003", previous_event_id: "0002")
+usage_msg = "Usage: #{__FILE__} <input.csv> (v1|v2)"
+
+if ARGV.length != 2
+  puts usage_msg
+  Kernel.exit(1)
+end
+
+config =
+  if ARGV[1] == "v1"
+    {
+      google_sheet_id:   "1DBpqlv36PwQu5-QlY24S2XDkEnkxWWxo46igMtBiwAo",
+      scrub_event_id:    "Q3 (0001)",
+      previous_event_id: "Q2 (Final)",
+      csvinput_filename: ARGV[0]
+    }
+  elsif ARGV[1] == "v2"
+    {
+      google_sheet_id:   "1a7NrGlNpZFYjU9owYVgDThLJZmdRcyfubzE8IGgtfrg",
+      scrub_event_id:    "0004",
+      previous_event_id: "0003",
+      csvinput_filename: ARGV[0]
+    }
+  else
+    puts usage_msg
+    Kernel.exit(1)
+  end
+
+o = BugCrush::Spreadsheet.new(**config)
 
 success = o.call
 
 if success
   w = BugCrush::Worksheet.
-    new(spreadsheet: o, new_worksheet_label: "0003")
+    new(spreadsheet: o, new_worksheet_label: config[:scrub_event_id])
   success = w.call
 else
   puts "Error during BugCrush::Spreadsheet.call"
