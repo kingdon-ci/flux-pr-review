@@ -4,7 +4,11 @@ ruby '2.7.4'
 
 gem "export-pull-requests", "~> 0.3.6"
 gem "google_drive"
-gem "pry-rails"
 gem "rails", "~> 6.1"
+
+group :development, :test do
+  gem "pry-rails"
+  gem "rspec-rails", "~> 5.0.0"
+end
 # gem 'sorbet', :group => :development
 # gem 'sorbet-runtime'
