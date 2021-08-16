@@ -22,7 +22,7 @@ module BugCrush
       }
 
       @properties[:ws] =
-        session.spreadsheet_by_key(spreadsheet_id).worksheet_by_title("Scratch")
+        session.spreadsheet_by_key(spreadsheet_id).worksheet_by_title("Raw data")
 
       self[:pr_csv] = CSV.read(input_filename)
 
