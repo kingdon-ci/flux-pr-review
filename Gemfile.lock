@@ -118,6 +118,10 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
+    graphql (1.12.14)
+    graphql-client (0.16.0)
+      activesupport (>= 3.0)
+      graphql (~> 1.8)
     hashie (3.6.0)
     httparty (0.18.1)
       mime-types (~> 3.0)
@@ -249,6 +253,7 @@ PLATFORMS
 DEPENDENCIES
   export-pull-requests (~> 0.3.6)
   google_drive
+  graphql-client
   pry-rails
   rails (~> 6.1)
   rspec-rails (~> 5.0.0)

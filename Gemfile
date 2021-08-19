@@ -5,6 +5,7 @@ ruby '2.7.4'
 gem "export-pull-requests", "~> 0.3.6"
 gem "google_drive"
 gem "rails", "~> 6.1"
+gem 'graphql-client'
 
 group :development, :test do
   gem "pry-rails"
