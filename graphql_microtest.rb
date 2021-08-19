@@ -4,4 +4,5 @@ require 'pry'
 d = BugCrush::Discussions.new
 
 a = d.discussions
-binding.pry
+puts "tests OK"
+# binding.pry

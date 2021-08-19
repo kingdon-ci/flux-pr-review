@@ -76,7 +76,6 @@ query {
   private
 
     def all_discussions
-      binding.pry
       @all_discussions ||= Client.query(AllDiscussions)
     end
 
