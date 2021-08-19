@@ -25,6 +25,7 @@ module BugCrush
         session.spreadsheet_by_key(spreadsheet_id).worksheet_by_title("Raw data")
 
       self[:pr_csv] = CSV.read(input_filename)
+      # self[:disc_csv] = CSV.read(discussion_input_filename)
 
     end
 
@@ -48,6 +49,29 @@ module BugCrush
       begin
         check_for_safety!
 
+        populate_from_input_csv
+  #      populate_discussions(first_row: first_row_to_write_into)
+
+      ws.save
+
+      rescue AlreadyDid
+        # already did this part, signaled by check_for_safety!
+        return false # failure
+      end
+
+      return true # success
+    end
+
+    def check_for_safety!
+      if ws[1, 1] == '' && ws[2, 1] == ''
+        # it is probably safe to proceed, there is no data in the worksheet to
+        # overwrite
+      else
+        raise AlreadyDid, "worksheet already has data, cowardly aborting"
+      end
+    end
+
+    def populate_from_input_csv
       num_rows, num_cols = input_csv.length, input_csv[0].length
 
       (1..num_rows).each do |row|
@@ -71,23 +95,7 @@ module BugCrush
         end
       end
 
-      ws.save
-
-      rescue AlreadyDid
-        # already did this part, signaled by check_for_safety!
-        return false # failure
-      end
-
-      return true # success
-    end
-
-    def check_for_safety!
-      if ws[1, 1] == '' && ws[2, 1] == ''
-        # it is probably safe to proceed, there is no data in the worksheet to
-        # overwrite
-      else
-        raise AlreadyDid, "worksheet already has data, cowardly aborting"
-      end
+      return num_rows
     end
   end
 end
