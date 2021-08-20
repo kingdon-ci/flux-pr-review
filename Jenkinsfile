@@ -36,7 +36,6 @@ pipeline {
             export DOCKER_REPO_HOST="${dockerRepoHost}"
             export DOCKER_REPO_PROJ="${dockerRepoProj}"
             export GIT_COMMIT="${gitCommit}"
-            # eval \$(ssh-agent) && ssh-add ${SSH_KEY} && ssh-add -l
             ./jenkins/docker-build.sh
             """.stripIndent()
           }
