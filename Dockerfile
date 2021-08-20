@@ -2,7 +2,7 @@
 FROM kingdonb/rvm-supported:e9f7269a as builder-base
 LABEL maintainer="Kingdon Barrett <kingdon@weave.works>"
 ENV APPDIR="/home/${RVM_USER}/app"
-ENV RUBY=2.6.8
+ENV RUBY=2.7.4
 ENV GEMSET=testing
 
 USER root
