@@ -7,8 +7,11 @@ set -euo pipefail
 apt-get update && apt-get install -y --no-install-recommends \
   manpages vim \
   build-essential rsync \
-  tzdata
+  tzdata locales
 #  build-essential nodejs rsync \
+
+echo -e 'LANG="en_US.UTF-8"\nLANGUAGE="en_US:en"\n' > /etc/default/locale
+locale-gen --purge en_US.UTF-8
 
 # # Upgrade, install nodejs, yarn (in the RVM context)
 # apt-get upgrade -y --no-install-recommends
