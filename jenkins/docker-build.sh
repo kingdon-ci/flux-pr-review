@@ -20,6 +20,7 @@ fi
 GIT_COMMIT_SHORT=$(echo $GIT_COMMIT|cut -c1-8)
 
 docker login ${DOCKER_REPO_HOST} -u ${DOCKER_REPO_USER} -p ${DOCKER_REPO_PASSWORD}
-docker build --ssh=default -t ${DOCKER_REPO_HOST}/${DOCKER_REPO_USER}/${DOCKER_REPO_PROJ}:${GIT_COMMIT_SHORT} --target test .
+#docker build --ssh=default -t ${DOCKER_REPO_HOST}/${DOCKER_REPO_USER}/${DOCKER_REPO_PROJ}:${GIT_COMMIT_SHORT} --target test .
+docker build -t ${DOCKER_REPO_HOST}/${DOCKER_REPO_USER}/${DOCKER_REPO_PROJ}:${GIT_COMMIT_SHORT} --target test .
 docker build -t ${DOCKER_REPO_HOST}/${DOCKER_REPO_USER}/${DOCKER_REPO_PROJ}:bundler --target gem-bundle .
 docker build -t ${DOCKER_REPO_HOST}/${DOCKER_REPO_USER}/${DOCKER_REPO_PROJ}:jenkins_${GIT_COMMIT_SHORT} --target jenkins .
