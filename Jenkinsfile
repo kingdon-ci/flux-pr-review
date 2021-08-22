@@ -76,6 +76,12 @@ pipeline {
                     imagePullPolicy: Never
                     securityContext:
                       runAsUser: 1000
+                    env:
+                    - name: GITHUB_TOKEN
+                      valueFrom:
+                        secretKeyRef:
+                          name: github-discussions
+                          key: github-token
                     command:
                     - cat
                     resources:
