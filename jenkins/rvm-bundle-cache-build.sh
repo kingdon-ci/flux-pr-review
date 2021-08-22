@@ -16,7 +16,7 @@ RUBY_VERSION=$1
 rvm ${RUBY_VERSION} do bundle install
 mkdir -p /tmp/vendor
 
-# Dockerfile has mounted a buildkit cache at /tmp/.cache/bundle/ – It is not
+# Dockerfile has mounted a buildkit cache at /tmp/.cache/bundle/ - It is not
 # part of the image and will not remain present in the image filesystem after
 # this script is run, so we take a copy here for later stages to copy from.
 cp -ar /tmp/.cache/bundle/ /tmp/vendor/bundle
