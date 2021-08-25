@@ -37,6 +37,11 @@ doitv1: review-v1.csv
 deps:
 	rvm $(shell cat .ruby-version) do bundle install
 
+.PHONY: dry-run
+dry-run:
+	echo "do a dry run (check auth is ready, github token can pull, do not write anything)"
+	exit 1
+
 .PHONY: test
 test:
 	rvm $(shell cat .ruby-version) do bundle exec srb tc
