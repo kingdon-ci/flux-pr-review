@@ -13,8 +13,14 @@ module BugCrush
       }
     end
 
+    def data
+      @data ||= all_discussions.data
+      raise StandardError, "no data:\nMake sure that GITHUB_TOKEN is set properly." unless @data.present?
+      @data
+    end
+
     def discussions
-      nodes = all_discussions.data.repository.discussions.nodes
+      nodes = data.repository.discussions.nodes
 
       nodes.map { |node|
         Discussion.new(node)
