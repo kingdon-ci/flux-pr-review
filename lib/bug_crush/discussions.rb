@@ -13,14 +13,33 @@ module BugCrush
       }
     end
 
-    def data
-      @data ||= all_discussions.data
-      raise StandardError, "no data:\nMake sure that GITHUB_TOKEN is set properly." unless @data.present?
-      @data
+    def data_pages_in_nodes
+      page1 = Client.query(AllDiscussions, variables: {after:nil, perPage:100})
+      c_p2 = page1.data.repository.discussions.page_info.end_cursor
+      page2 = Client.query(AllDiscussions, variables: {after:c_p2, perPage:100})
+      c_p3 = page2.data.repository.discussions.page_info.end_cursor
+      page3 = Client.query(AllDiscussions, variables: {after:c_p3, perPage:100})
+      c_p4 = page3.data.repository.discussions.page_info.end_cursor
+      page4 = Client.query(AllDiscussions, variables: {after:c_p4, perPage:100})
+      c_p5 = page4.data.repository.discussions.page_info.end_cursor
+      page5 = Client.query(AllDiscussions, variables: {after:c_p5, perPage:100})
+
+      raise StandardError, "no data:\nMake sure that GITHUB_TOKEN is set properly." unless
+        page1.present? &&
+        page2.present? &&
+        page3.present? &&
+        page4.present? &&
+        page5.present?
+
+      page1.data.repository.discussions.nodes \
+      + page2.data.repository.discussions.nodes \
+      + page3.data.repository.discussions.nodes \
+      + page4.data.repository.discussions.nodes \
+      + page5.data.repository.discussions.nodes
     end
 
     def discussions
-      nodes = data.repository.discussions.nodes
+      nodes = data_pages_in_nodes
 
       nodes.map { |node|
         Discussion.new(node)
@@ -35,11 +54,10 @@ module BugCrush
       end
     Schema = GraphQL::Client.load_schema("./lib/graphql/github/schema.json")
     Client = GraphQL::Client.new(schema: Schema, execute: HTTP)
-    AllDiscussions = 
-      Client.parse <<-'GRAPHQL'
-query {
+    QueryString = <<-'GRAPHQL'
+query($after: String, $perPage: Int) {
   repository(owner: "fluxcd", name: "flux2") {
-    discussions(first: 100) {
+    discussions(first: $perPage after: $after) {
       # type: DiscussionConnection
       totalCount # Int!
 
@@ -78,21 +96,22 @@ query {
   }
 }
       GRAPHQL
+    AllDiscussions = Client.parse(QueryString)
 
   private
 
-    def all_discussions
-      @all_discussions ||= Client.query(AllDiscussions)
-      raise StandardError, "query failed:\n#{all_discussions_errors}" unless all_discussions_ok?
-      @all_discussions
-    end
+    # def all_discussions(query, parameters:)
+    #   all_discussions = Client.query(query, variables: parameters)
+    #   raise StandardError, "query failed:\n#{errors(all_discussions)}" unless ok?(all_discussions)
+    #   all_discussions
+    # end
 
-    def all_discussions_errors
-      @all_discussions&.errors&.all&.details&.[](:data)
-    end
-    def all_discussions_ok?
-      @all_discussions&.data&.repository.present?
-    end
+    # def errors(resp)
+    #   resp&.errors&.all&.details&.[](:data)
+    # end
+    # def ok?(resp)
+    #   resp&.data&.repository.present?
+    # end
 
   end
 
