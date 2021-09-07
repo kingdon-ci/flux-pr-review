@@ -39,7 +39,7 @@ module BugCrush
       Client.parse <<-'GRAPHQL'
 query {
   repository(owner: "fluxcd", name: "flux2") {
-    discussions(first: 500) {
+    discussions(first: 100) {
       # type: DiscussionConnection
       totalCount # Int!
 
