@@ -2,6 +2,7 @@
 require 'forwardable'
 require "graphql/client"
 require "graphql/client/http"
+require 'csv'
 
 module BugCrush
   class Discussions
@@ -118,6 +119,10 @@ query($after: String, $perPage: Int) {
   class Discussion
     def initialize(node)
       @node = node
+    end
+
+    def to_csv
+      [repository, type, num, user, title, state, created, updated, "N/A", url].to_csv
     end
 
     def repository
