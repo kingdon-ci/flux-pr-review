@@ -44,4 +44,5 @@ dry-run:
 
 .PHONY: test
 test:
-	rvm $(shell cat .ruby-version) do bundle exec srb tc
+	#rvm $(shell cat .ruby-version) do bundle exec srb tc
+	./jenkins/rake-ci.sh
