@@ -39,7 +39,7 @@ module BugCrush
       Client.parse <<-'GRAPHQL'
 query {
   repository(owner: "fluxcd", name: "flux2") {
-    discussions(first: 10) {
+    discussions(first: 500) {
       # type: DiscussionConnection
       totalCount # Int!
 
@@ -83,6 +83,15 @@ query {
 
     def all_discussions
       @all_discussions ||= Client.query(AllDiscussions)
+      raise StandardError, "query failed:\n#{all_discussions_errors}" unless all_discussions_ok?
+      @all_discussions
+    end
+
+    def all_discussions_errors
+      @all_discussions&.errors&.all&.details&.[](:data)
+    end
+    def all_discussions_ok?
+      @all_discussions&.data&.repository.present?
     end
 
   end
