@@ -173,11 +173,18 @@ query($after: String, $perPage: Int) {
     end
 
     def created
-      node.published_at.strftime("%m/%d/%y %H:%M:%S")
+      DateTime.parse(node.published_at).strftime("%m/%d/%y %H:%M:%S")
     end
 
     def updated
-      node.last_edited_at.strftime("%m/%d/%y %H:%M:%S")
+      d = DateTime.parse(node.last_edited_at)
+      if d.present?
+        d.strftime("%m/%d/%y %H:%M:%S")
+      else
+        ''
+      end
+    rescue TypeError
+      ''
     end
 
     def url
