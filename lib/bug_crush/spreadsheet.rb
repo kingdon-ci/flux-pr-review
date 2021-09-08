@@ -105,7 +105,7 @@ module BugCrush
         end
       end
 
-      (1..num_rows2).each do |row|
+      (2..num_rows2).each do |row|
         (1..num_cols2).each do |col|
           # input_csv is zero-indexed arrays so, ...
           input_value = discussion_csv&.[](row-1)&.[](col-1)
@@ -118,9 +118,9 @@ module BugCrush
               rescue Date::Error => e
                 parsed_date = input_value
               end
-              ws[num_rows + row, col] = parsed_date
+              ws[num_rows + row - 1, col] = parsed_date
             else
-              ws[num_rows + row, col] = input_value
+              ws[num_rows + row - 1, col] = input_value
             end
           end
         end
