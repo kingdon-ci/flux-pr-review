@@ -1,6 +1,11 @@
 #!/bin/bash
 
-source /etc/profile.d/rvm.sh
+if [ -f /etc/profile.d/rvm.sh ]; then
+	source /etc/profile.d/rvm.sh
+elif [ -f ~/.rvm/scripts/rvm ]; then
+	source ~/.rvm/scripts/rvm
+fi
+
 rvm ${RUBY}@testing
 
 bundle check
