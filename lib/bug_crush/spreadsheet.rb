@@ -8,9 +8,9 @@ module BugCrush
     extend Forwardable
     def_delegators :@properties, :[], :[]=
 
-    def initialize(google_sheet_id:, scrub_event_id:, previous_event_id:, csvinput_filename:)
+    def initialize(google_sheet_id:, scrub_event_id:, previous_event_id:, csvinput_filename:, discussion_csvinput_filename: nil)
       @spreadsheet_id = google_sheet_id
-      @config = Config.new(input_file: csvinput_filename)
+      @config = Config.new(input_file: csvinput_filename, discussion_input_file: discussion_csvinput_filename)
       session = GoogleDrive::Session.from_config(@config.config_json)
 
       @properties = {
@@ -19,13 +19,14 @@ module BugCrush
         previous_event_id: previous_event_id,
         session:           session,
         input_filename:    @config.input_file,
+        discussion_input_filename: @config.discussion_input_file,
       }
 
       @properties[:ws] =
         session.spreadsheet_by_key(spreadsheet_id).worksheet_by_title("Raw data")
 
       self[:pr_csv] = CSV.read(input_filename)
-      # self[:disc_csv] = CSV.read(discussion_input_filename)
+      self[:disc_csv] = CSV.read(discussion_input_filename)
 
     end
 
@@ -37,8 +38,16 @@ module BugCrush
       self[:pr_csv]
     end
 
+    def discussion_csv
+      self[:disc_csv]
+    end
+
     def input_filename
       self[:input_filename]
+    end
+
+    def discussion_input_filename
+      self[:discussion_input_filename]
     end
 
     def spreadsheet_id
@@ -73,6 +82,7 @@ module BugCrush
 
     def populate_from_input_csv
       num_rows, num_cols = input_csv.length, input_csv[0].length
+      num_rows2, num_cols2 = discussion_csv.length, discussion_csv[0].length
 
       (1..num_rows).each do |row|
         (1..num_cols).each do |col|
@@ -95,7 +105,28 @@ module BugCrush
         end
       end
 
-      return num_rows
+      (1..num_rows2).each do |row|
+        (1..num_cols2).each do |col|
+          # input_csv is zero-indexed arrays so, ...
+          input_value = discussion_csv&.[](row-1)&.[](col-1)
+
+          if input_value.present?
+            if col == 7 || col == 8
+              begin
+                parsed_date =
+                  Date.strptime(input_value, "%m/%d/%y %H:%M:%S")
+              rescue Date::Error => e
+                parsed_date = input_value
+              end
+              ws[num_rows + row, col] = parsed_date
+            else
+              ws[num_rows + row, col] = input_value
+            end
+          end
+        end
+      end
+
+      return num_rows + num_rows2
     end
   end
 end

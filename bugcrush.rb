@@ -11,9 +11,10 @@ require './lib/bug_crush'
 # require './lib/make_worksheet'
 # require './lib/make_copy_state'
 
-usage_msg = "Usage: #{__FILE__} <input.csv> (v1|v2)"
+usage_msg = "Usage: #{__FILE__} <input.csv> (v1|v2) <discussions.csv>
+The discussions.csv file is only used for v2"
 
-if ARGV.length != 2
+if ARGV.length != 2 && ARGV-length != 3
   puts usage_msg
   Kernel.exit(1)
 end
@@ -32,6 +33,7 @@ config =
       scrub_event_id:    "0008",
       previous_event_id: "0007",
       csvinput_filename: ARGV[0]
+      discussion_csvinput_filename: ARGV[2]
     }
   else
     puts usage_msg

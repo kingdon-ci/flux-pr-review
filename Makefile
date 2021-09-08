@@ -27,7 +27,7 @@ cleanv1:
 
 .PHONY: doit doitv1
 doit: review.csv
-	rvm $(shell cat .ruby-version) do bundle exec ./bugcrush.rb review.csv v2
+	rvm $(shell cat .ruby-version) do bundle exec ./bugcrush.rb review.csv v2 discussions.csv
 	# do it
 doitv1: review-v1.csv
 	rvm $(shell cat .ruby-version) do bundle exec ./bugcrush.rb review-v1.csv v1

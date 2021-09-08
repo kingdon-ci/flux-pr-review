@@ -7,10 +7,11 @@ module BugCrush
     extend Forwardable
     def_delegators :@properties, :[], :[]=
 
-    def initialize(config_json: "config.json", input_file:)
+    def initialize(config_json: "config.json", input_file:, discussion_input_file:)
       @properties = {
         config_json: config_json,
-        input_file: input_file
+        input_file: input_file,
+        discussion_input_file: discussion_input_file,
       }
     end
 
@@ -20,6 +21,10 @@ module BugCrush
 
     def config_json
       self[:config_json]
+    end
+
+    def discussion_input_file
+      self[:discussion_input_file]
     end
   end
 end

@@ -39,12 +39,26 @@ module BugCrush
       + page5.data.repository.discussions.nodes
     end
 
-    def discussions
-      nodes = data_pages_in_nodes
+    def header
+      "Repository,Type,#,User,Title,State,Created,Updated,Merged,URL\n"
+    end
 
-      nodes.map { |node|
+    def discussions
+      @nodes ||= data_pages_in_nodes
+
+      @nodes.map { |node|
         Discussion.new(node)
       }
+
+      self
+    end
+
+    def to_csv
+      discussions
+      header +
+      @nodes.map {|d|
+        Discussion.new(d).to_csv
+      }.join
     end
 
     HTTP = GraphQL::Client::HTTP.new("https://api.github.com/graphql") do
@@ -121,6 +135,10 @@ query($after: String, $perPage: Int) {
       @node = node
     end
 
+    def inspect
+      to_csv
+    end
+
     def to_csv
       [repository, type, num, user, title, state, created, updated, "N/A", url].to_csv
     end
@@ -155,11 +173,11 @@ query($after: String, $perPage: Int) {
     end
 
     def created
-      node.published_at
+      node.published_at.strftime("%m/%d/%y %H:%M:%S")
     end
 
     def updated
-      node.last_edited_at
+      node.last_edited_at.strftime("%m/%d/%y %H:%M:%S")
     end
 
     def url

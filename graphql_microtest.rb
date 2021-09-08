@@ -5,11 +5,8 @@ d = BugCrush::Discussions.new
 
 a = d.discussions
 
-header = "Repository,Type,#,User,Title,State,Created,Updated,Merged,URL"
-puts header
-a.each do |row|
-  puts row.to_csv
-end
+csv_output = a.to_csv
+File.write("discussions.csv", csv_output)
 
 puts "tests OK"
 # binding.pry
