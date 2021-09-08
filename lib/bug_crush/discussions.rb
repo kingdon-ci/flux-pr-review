@@ -156,7 +156,7 @@ query($after: String, $perPage: Int) {
     end
 
     def user
-      node.author.login
+      node.author&.login || ''
     end
 
     def title

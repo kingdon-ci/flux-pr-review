@@ -14,7 +14,7 @@ require './lib/bug_crush'
 usage_msg = "Usage: #{__FILE__} <input.csv> (v1|v2) <discussions.csv>
 The discussions.csv file is only used for v2"
 
-if ARGV.length != 2 && ARGV-length != 3
+if ARGV.length != 2 && ARGV.length != 3
   puts usage_msg
   Kernel.exit(1)
 end
@@ -32,8 +32,8 @@ config =
       google_sheet_id:   "1FNKAH1SVzPT59-1_hmqYyJFwbg4wMM-9BUq6Y7kam_E",
       scrub_event_id:    "0008",
       previous_event_id: "0007",
-      csvinput_filename: ARGV[0]
-      discussion_csvinput_filename: ARGV[2]
+      csvinput_filename: ARGV[0],
+      discussion_csvinput_filename: ARGV[2],
     }
   else
     puts usage_msg
