@@ -72,7 +72,8 @@ module BugCrush
     QueryString = <<-'GRAPHQL'
 query($after: String, $perPage: Int) {
   repository(owner: "fluxcd", name: "flux2") {
-    discussions(first: $perPage after: $after) {
+    discussions(first: $perPage after: $after,
+      orderBy: {field: UPDATED_AT, direction: DESC}) {
       # type: DiscussionConnection
       totalCount # Int!
 
@@ -98,7 +99,7 @@ query($after: String, $perPage: Int) {
         id
         url
         publishedAt
-        lastEditedAt
+        updatedAt
         answerChosenAt
         title
         author {
@@ -177,7 +178,7 @@ query($after: String, $perPage: Int) {
     end
 
     def updated
-      d = DateTime.parse(node.last_edited_at)
+      d = DateTime.parse(node.updated_at) # || node.published_at)
       if d.present?
         d.strftime("%m/%d/%y %H:%M:%S")
       else
