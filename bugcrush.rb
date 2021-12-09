@@ -29,9 +29,9 @@ config =
     }
   elsif ARGV[1] == "v2"
     {
-      google_sheet_id:   "1Ol93Zi2mJ9GYr_dmhr5DcAExjmSwre0nLQbCbzVpBSo",
-      scrub_event_id:    "0014",
-      previous_event_id: "0013",
+      google_sheet_id:   "1B78Z7AIGBbxjKbrb43iWgCZdkjlhHbzvg0I09d9HzgY",
+      scrub_event_id:    "0015",
+      previous_event_id: "0014",
       csvinput_filename: ARGV[0],
       discussion_csvinput_filename: ARGV[2],
     }
