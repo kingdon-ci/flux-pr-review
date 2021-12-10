@@ -14,7 +14,7 @@ all: clean doit
 fluxv1: cleanv1 doitv1
 
 review.csv:
-	rvm $(shell cat .ruby-version) do bundle exec epr $(FLUXV2_REPOS) > review.csv
+	rvm $(shell cat .ruby-version) do bundle exec epr -l "good first issue" $(FLUXV2_REPOS) > review.csv
 
 review-v1.csv:
 	rvm $(shell cat .ruby-version) do bundle exec epr $(FLUXV1_REPOS) > review-v1.csv
