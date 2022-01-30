@@ -50,8 +50,10 @@ module BugCrush
       old_ws.rows.each_with_index do |row, index|
         next if index == 0
         key = row[2]
+        binding.pry if key == "282"
         holding_tank[key] = row
       end
+      binding.pry
 
       new_ws.rows.each_with_index do |row, index|
         next if index == 0
