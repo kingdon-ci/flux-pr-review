@@ -49,13 +49,13 @@ module BugCrush
 
       old_ws.rows.each_with_index do |row, index|
         next if index == 0
-        key = row[2]
-        holding_tank[key] = row
+
+        holding_tank[key(row)] = row
       end
 
       new_ws.rows.each_with_index do |row, index|
         next if index == 0
-        matching_row = holding_tank[row[2]]
+        matching_row = holding_tank[key(row)]
 
         if matching_row.present?
           new_ws[index + 1, 12] = matching_row[11]
@@ -72,6 +72,11 @@ module BugCrush
       end
 
       return true
+    end
+    private
+
+    def key(row)
+      row[0..2].join('|')
     end
   end
 end
