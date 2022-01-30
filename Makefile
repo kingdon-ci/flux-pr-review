@@ -21,12 +21,14 @@ review-v1.csv:
 
 .PHONY: clean cleanv1
 clean:
-	rm -f review.csv
+	rm -f review.csv discussions.csv
 cleanv1:
 	rm -f review-v1.csv
 
+discussions.csv: test
+
 .PHONY: doit doitv1
-doit: review.csv
+doit: review.csv discussions.csv
 	rvm $(shell cat .ruby-version) do bundle exec ./bugcrush.rb review.csv v2 discussions.csv
 	# do it
 doitv1: review-v1.csv
