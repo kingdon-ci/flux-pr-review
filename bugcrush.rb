@@ -29,7 +29,7 @@ config =
     }
   elsif ARGV[1] == "v2"
     {
-      google_sheet_id:   "1LOIKMm-TZnIMOTt1HWdWQpaJPV-UotBLtVuibqzSvP4",
+      google_sheet_id:   "1ZF-4HZoAy7N0iDYYG8ET40Ac5jz4M64GnNdWrsInjZM",
       scrub_event_id:    "0018",
       previous_event_id: "0017",
       csvinput_filename: ARGV[0],
