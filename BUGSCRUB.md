@@ -18,7 +18,7 @@ Ensure EPR gem is installed (Export Pull Requests)
 
 Export `GITHUB_TOKEN` and ensure a github token is set for EPR in `.git/config` (as explained in the EPR readme)
 
-Run "make"
+Set the parameters in `bugcrush.rb`: `google_sheet_id`, `scrub_event_id`, and `previous_event_id` then run "make"
 
 Verify the spreadsheet has been populated and the line notes are carried over
 
