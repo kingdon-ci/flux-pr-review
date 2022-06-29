@@ -1,3 +1,8 @@
+### Flux Bug Scrub
+
+For details about the Bug Scrub prep and how to run `make` (what to do
+before/around/after that) visit [BUGSCRUB.md](/BUGSCRUB.md)
+
 ### `make pr.csv`
 
 `pr.csv` is the default make target, run `make`
