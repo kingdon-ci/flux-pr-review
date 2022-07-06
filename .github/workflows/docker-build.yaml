@@ -10,7 +10,7 @@ on:
 jobs:
   docker:
     env:
-      IMAGE: ghcr.io/${{github.actor}}/flux-pr-review
+      IMAGE: ghcr.io/kingdon-ci/flux-pr-review
     runs-on: self-hosted
     steps:
       - name: Prepare
@@ -53,8 +53,8 @@ jobs:
           tags: |
             ${{ env.IMAGE }}:${{ steps.prep.outputs.BUILD_ID }}
             ${{ env.IMAGE }}:${{ steps.prep.outputs.LATEST_ID }}
-          cache-from: type=registry,ref=ghcr.io/kingdonb/flux-pr-review:buildcache
-          cache-to: type=registry,ref=ghcr.io/kingdonb/flux-pr-review:buildcache,mode=max
+          cache-from: type=registry,ref=ghcr.io/kingdon-ci/flux-pr-review:buildcache
+          cache-to: type=registry,ref=ghcr.io/kingdon-ci/flux-pr-review:buildcache,mode=max
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
