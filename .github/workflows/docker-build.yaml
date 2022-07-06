@@ -10,7 +10,7 @@ on:
 jobs:
   docker:
     env:
-      IMAGE: ghcr.io/kingdon-ci/flux-pr-review
+      IMAGE: img.hephy.pro/fluxcd/flux-pr-review
     runs-on: self-hosted
     steps:
       - name: Prepare
@@ -38,9 +38,9 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: img.hephy.pro
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - uses: actions/checkout@v3
 
@@ -53,8 +53,8 @@ jobs:
           tags: |
             ${{ env.IMAGE }}:${{ steps.prep.outputs.BUILD_ID }}
             ${{ env.IMAGE }}:${{ steps.prep.outputs.LATEST_ID }}
-          cache-from: type=registry,ref=ghcr.io/kingdon-ci/flux-pr-review:buildcache
-          cache-to: type=registry,ref=ghcr.io/kingdon-ci/flux-pr-review:buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.IMAGE }}:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE}}:buildcache,mode=max
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
