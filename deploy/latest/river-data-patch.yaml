@@ -1,0 +1,11 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: bug-scrub-web
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: bug-scrub-web
+        image: img.hephy.pro/fluxcd/flux-pr-review:0.0.1 # {"$imagepolicy": "bug-scrub:prerelease"}

@@ -1,0 +1,25 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: bug-scrub-auto-update
+  namespace: bug-scrub
+spec:
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        email: yebyen+fluxcd@gmail.com
+        name: fluxcdbot
+      messageTemplate: '[skip ci] {{range .Updated.Images}}{{println .}}{{end}}'
+    push:
+      branch: main
+  interval: 30s
+  sourceRef:
+    kind: GitRepository
+    name: bug-scrub-rw
+  update:
+    path: ./deploy
+    strategy: Setters
