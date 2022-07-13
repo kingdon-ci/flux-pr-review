@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bug-scrub-web
+spec:
+  selector:
+    matchLabels:
+      app: bug-scrub-web
+  template:
+    metadata:
+      labels:
+        app: bug-scrub-web
+    spec:
+      containers:
+        - name: bug-scrub-web
+          image: ghcr.io/kingdonb/river-data-explorer:0.0.1 # {"$imagepolicy": "bug-scrub:stable"}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: bug-scrub-web
+  namespace: app
+spec:
+  ports:
+    - name: http
+      port: 80
+  selector:
+    app: bug-scrub-web

@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: bug-scrub-oci
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    tag: 0.0.1 # {"$imagepolicy": "bug-scrub:edge-config:tag"}
+  url: oci://img.hephy.pro/fluxcd/bug-scrub-web-config

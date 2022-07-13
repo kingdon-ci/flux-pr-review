@@ -1,0 +1,15 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: bug-scrub-rw
+  namespace: bug-scrub
+spec:
+  gitImplementation: go-git
+  interval: 30m0s
+  ref:
+    branch: main
+  secretRef:
+    name: bug-scrub-rw
+  timeout: 20s
+  url: ssh://git@github.com/kingdon-ci/flux-pr-review

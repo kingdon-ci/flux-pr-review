@@ -1,0 +1,9 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: bug-scrub-web
+  namespace: bug-scrub
+spec:
+  image: img.hephy.pro/fluxcd/flux-pr-review
+  interval: 1m0s
