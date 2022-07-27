@@ -15,28 +15,64 @@ module BugCrush
     end
 
     def data_pages_in_nodes
-      page1 = Client.query(AllDiscussions, variables: {after:nil, perPage:100})
+      per_page = 100
+
+      page1 = Client.query(AllDiscussions, variables: {after:nil, perPage:per_page})
       c_p2 = page1.data.repository.discussions.page_info.end_cursor
-      page2 = Client.query(AllDiscussions, variables: {after:c_p2, perPage:100})
+      page2 = Client.query(AllDiscussions, variables: {after:c_p2, perPage:per_page})
       c_p3 = page2.data.repository.discussions.page_info.end_cursor
-      page3 = Client.query(AllDiscussions, variables: {after:c_p3, perPage:100})
+      page3 = Client.query(AllDiscussions, variables: {after:c_p3, perPage:per_page})
       c_p4 = page3.data.repository.discussions.page_info.end_cursor
-      page4 = Client.query(AllDiscussions, variables: {after:c_p4, perPage:100})
+      page4 = Client.query(AllDiscussions, variables: {after:c_p4, perPage:per_page})
       c_p5 = page4.data.repository.discussions.page_info.end_cursor
-      page5 = Client.query(AllDiscussions, variables: {after:c_p5, perPage:100})
+      page5 = Client.query(AllDiscussions, variables: {after:c_p5, perPage:per_page})
+      c_p6 = page5.data.repository.discussions.page_info.end_cursor
+      page6 = Client.query(AllDiscussions, variables: {after:c_p6, perPage:per_page})
+      c_p7 = page6.data.repository.discussions.page_info.end_cursor
+      page7 = Client.query(AllDiscussions, variables: {after:c_p7, perPage:per_page})
+      c_p8 = page7.data.repository.discussions.page_info.end_cursor
+      page8 = Client.query(AllDiscussions, variables: {after:c_p8, perPage:per_page})
+      c_p9 = page8.data.repository.discussions.page_info.end_cursor
+      page9 = Client.query(AllDiscussions, variables: {after:c_p9, perPage:per_page})
+
+      # raise StandardError, "no data:\nMake sure that GITHUB_TOKEN is set properly." unless
+      #   page1&.present? &&
+      #   page2&.present? &&
+      #   page3&.present? &&
+      #   page4&.present? &&
+      #   page5&.present?
+
+      max_count = 899
+
+      if page9.data.repository.discussions.total_count > max_count
+        puts "The Flux Discussions have grown again! Add another page\n"
+          + "to the horrible code that implements 'paging' for next week,\n"
+          + "and bump the max_count variable up by another #{per_page}."
+      end
 
       raise StandardError, "no data:\nMake sure that GITHUB_TOKEN is set properly." unless
-        page1.present? &&
-        page2.present? &&
-        page3.present? &&
-        page4.present? &&
-        page5.present?
+        page1&.present? &&
+        page2&.present? &&
+        page3&.present? &&
+        page4&.present? &&
+        page5&.present? &&
+        page6&.present? &&
+        page7&.present? &&
+        page8&.present? &&
+        page9&.present?
 
-      page1.data.repository.discussions.nodes \
-      + page2.data.repository.discussions.nodes \
-      + page3.data.repository.discussions.nodes \
-      + page4.data.repository.discussions.nodes \
-      + page5.data.repository.discussions.nodes
+        page1.data.repository.discussions.nodes \
+        + page2.data.repository.discussions.nodes \
+        + page3.data.repository.discussions.nodes \
+        + page4.data.repository.discussions.nodes \
+        + page5.data.repository.discussions.nodes \
+        + page6.data.repository.discussions.nodes \
+        + page7.data.repository.discussions.nodes \
+        + page8.data.repository.discussions.nodes \
+        + page9.data.repository.discussions.nodes
+
+    rescue NoMethodError, StandardError
+      raise StandardError, "no data:\nMake sure that GITHUB_TOKEN is set properly."
     end
 
     def header
