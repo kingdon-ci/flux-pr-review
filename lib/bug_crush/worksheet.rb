@@ -43,6 +43,19 @@ module BugCrush
       @name
     end
 
+    def revert
+      c = ws.rows.count
+
+      unless c == 1
+        ws.delete_rows(3,c-1)
+        ws.delete_rows(2,1)
+        ws.save; ws.reload
+      else
+        true
+      end
+
+    end
+
     def call
       begin
         check_for_safety!

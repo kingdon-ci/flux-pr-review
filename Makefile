@@ -19,6 +19,10 @@ review.csv:
 review-v1.csv:
 	rvm $(shell cat .ruby-version) do bundle exec epr $(FLUXV1_REPOS) > review-v1.csv
 
+.PHONY: reset
+reset:
+	rvm $(shell cat .ruby-version) do bundle exec ./reset-targets.rb review.csv v2 discussions.csv
+
 .PHONY: clean cleanv1
 clean:
 	rm -f review.csv discussions.csv
