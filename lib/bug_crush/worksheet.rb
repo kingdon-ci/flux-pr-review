@@ -47,8 +47,14 @@ module BugCrush
       c = ws.rows.count
 
       unless c == 1
-        ws.delete_rows(3,c-1)
-        ws.delete_rows(2,1)
+        n = ws.rows[1].count
+
+        ws.delete_rows(3,c-2)
+
+        1.upto(n) do |x|
+          ws[2, x] = ''
+        end
+
         ws.save; ws.reload
       else
         true
