@@ -54,6 +54,15 @@ module BugCrush
       self[:google_sheet_id]
     end
 
+    def revert
+      c = ws.rows.count
+
+      ws.insert_rows(c+1,1)
+      ws.delete_rows(1,c)
+      ws.save; ws.reload
+
+    end
+
     def call
       begin
         check_for_safety!

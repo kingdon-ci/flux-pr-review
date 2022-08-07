@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.7.6'
+ruby '3.1.2'
 
-gem "export-pull-requests", "~> 0.3.6"
+gem "export-pull-requests", "~> 0.4.0"
 gem "google_drive"
 gem "rails", "~> 6.1"
 gem 'graphql-client'
