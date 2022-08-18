@@ -30,13 +30,13 @@
    will need to complete the Login Workflow again, this cred expires every week
    in Dev mode.)
 
-8. Set the parameters in `bugcrush.rb`: `google_sheet_id`, `scrub_event_id`, and
+8. Set the parameters in `params.rb`: `google_sheet_id`, `scrub_event_id`, and
    `previous_event_id` then run `make reset all`
 
  You can do the cleanup from Step 4 and 6 easily and quickly by running `make reset`
 
    # – NOTE:
-   # this will also hollow out the sheet named by `scrub_event_id` in bugcrush.rb
+   # this will also hollow out the sheet named by `scrub_event_id` in params.rb
    # so BE CAREFUL as you can lose your progress by running this in the wrong order.
    # Proceed with step 7 and 8 before running `make reset`.
 
