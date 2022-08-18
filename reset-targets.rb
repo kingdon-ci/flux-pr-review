@@ -29,8 +29,8 @@ config =
   #   }
   # elsif ARGV[1] == "v2"
   {
-      google_sheet_id:   "1PdP8jN-n7bGN_dEutkDSfewOjSQSAmpwmshJ2zM-c5w",
-      scrub_event_id:    "0041", # FIXME: these should read from bugcrush.rb
+      google_sheet_id:   "1OXf_liOaUAyEv9EZlfXcHLA5jRdq-ownqGzyLTXeCNo",
+      scrub_event_id:    "0042", # FIXME: these should read from bugcrush.rb
       previous_event_id: "0040",
       csvinput_filename: ARGV[0],
       discussion_csvinput_filename: ARGV[2],
