@@ -19,6 +19,8 @@ if ARGV.length != 3
   Kernel.exit(1)
 end
 
+require './params'
+
 config =
   # if ARGV[1] == "v1"
   #   {
@@ -29,12 +31,12 @@ config =
   #   }
   # elsif ARGV[1] == "v2"
   {
-      google_sheet_id:   "1OXf_liOaUAyEv9EZlfXcHLA5jRdq-ownqGzyLTXeCNo",
-      scrub_event_id:    "0042", # FIXME: these should read from bugcrush.rb
-      previous_event_id: "0040",
-      csvinput_filename: ARGV[0],
-      discussion_csvinput_filename: ARGV[2],
-    }
+    google_sheet_id: Params.google_sheet_id,
+    scrub_event_id: Params.scrub_event_id,
+    previous_event_id: Params.previous_event_id,
+    csvinput_filename: ARGV[0],
+    discussion_csvinput_filename: ARGV[2],
+  }
   # else
   #   puts usage_msg
   #   Kernel.exit(1)
