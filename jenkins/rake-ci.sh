@@ -6,8 +6,6 @@ elif [ -f ~/.rvm/scripts/rvm ]; then
 	source ~/.rvm/scripts/rvm
 fi
 
-set -x
-
 rvm ${RUBY}@testing
 
 bundle check
