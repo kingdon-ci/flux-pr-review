@@ -2,6 +2,8 @@
 require 'forwardable'
 require 'csv'
 
+require 'pry-rails'
+
 module BugCrush
   class InvalidHeader < StandardError; end
   class AlreadyDid < StandardError; end
@@ -91,6 +93,36 @@ module BugCrush
         ws[y, 17] = '' # Flag
       end
       ws.save
+
+      # now, sort by stale age
+      binding.pry
+      spreadsheet = self[:session].spreadsheet_by_key(self[:spreadsheet_id])
+      spreadsheet.batch_update(
+        [ { update_sheet_properties:
+            {
+              fields: "gridProperties.frozenRowCount",
+              properties:
+              {
+                sheet_id: ws.sheet_id,
+                grid_properties: {
+                  frozen_row_count: 1
+                }
+              }
+            }
+        } ] )
+      binding.pry
+      spreadsheet.batch_update(
+        [ { update_sheet_properties:
+            {
+              fields: "index",
+              properties:
+              {
+                sheet_id: ws.sheet_id,
+                index: 9
+              }
+            }
+        } ] )
+      binding.pry
 
       rescue AlreadyDid
         return false
