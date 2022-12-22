@@ -27,7 +27,7 @@ reset:
 
 .PHONY: clean cleanv1
 clean:
-	rm -f review.csv discussions.csv
+	rm -f review.csv discussions.csv doit test
 cleanv1:
 	rm -f review-v1.csv
 
