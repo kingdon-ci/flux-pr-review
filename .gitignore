@@ -10,4 +10,7 @@
 /config.json
 /.DS_Store
 
+/doit
+/test
+
 /.env.*

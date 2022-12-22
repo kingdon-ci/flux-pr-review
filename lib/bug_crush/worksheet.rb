@@ -92,6 +92,25 @@ module BugCrush
       end
       ws.save
 
+      # now, sort by stale age
+      spreadsheet = self[:session].spreadsheet_by_key(self[:spreadsheet_id])
+      spreadsheet.batch_update(
+        [ { sort_range:
+            {
+              range: {
+                sheet_id: ws.sheet_id,
+                start_row_index: 1,
+                end_row_index: ws.num_rows,
+                start_column_index: 0,
+                end_column_index: ws.num_cols
+              },
+              sort_specs: [
+                { dimension_index: 9, sort_order: "ASCENDING"}
+              ]
+            }
+        } ] )
+      ws.reload
+
       rescue AlreadyDid
         return false
       end

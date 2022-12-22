@@ -7,8 +7,10 @@ FLUXV1_REPOS := fluxcd/flux fluxcd/helm-operator fluxcd/flagger fluxcd/charts fl
 	fluxcd/helm-operator-docs-redirects fluxcd/legacy-docs-redirects fluxcd/flux-recv \
 	fluxcd/gitsrv fluxcd/distribution
 
-.PHONY: all
-all: clean doit
+# .PHONY: all
+# all: clean doit
+
+main: doit
 
 .PHONY: fluxv1
 fluxv1: cleanv1 doitv1
@@ -25,16 +27,17 @@ reset:
 
 .PHONY: clean cleanv1
 clean:
-	rm -f review.csv discussions.csv
+	rm -f review.csv discussions.csv doit test
 cleanv1:
 	rm -f review-v1.csv
 
 discussions.csv: test
 
-.PHONY: doit doitv1
+# .PHONY: doit doitv1
 doit: review.csv discussions.csv
 	rvm $(shell cat .ruby-version) do bundle exec ./bugcrush.rb review.csv v2 discussions.csv
-	# do it
+	touch doit
+.PHONY: doitv1
 doitv1: review-v1.csv
 	rvm $(shell cat .ruby-version) do bundle exec ./bugcrush.rb review-v1.csv v1
 	# do it
@@ -48,7 +51,7 @@ dry-run:
 	echo "do a dry run (check auth is ready, github token can pull, do not write anything)"
 	exit 1
 
-.PHONY: test
 test:
 	#rvm $(shell cat .ruby-version) do bundle exec srb tc
 	./jenkins/rake-ci.sh
+	touch test

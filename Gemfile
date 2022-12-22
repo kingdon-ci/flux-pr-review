@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.1.2'
+ruby '3.1.3'
 
 gem "export-pull-requests", "~> 0.4.0"
 gem "google_drive"

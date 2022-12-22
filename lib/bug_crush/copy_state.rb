@@ -17,7 +17,8 @@ module BugCrush
       @properties = {
         session: session,
         old_ws: old_worksheet,
-        new_ws: new_worksheet[:ws]
+        new_ws: new_worksheet[:ws],
+        spreadsheet_id: id
       }
     end
 
@@ -66,6 +67,23 @@ module BugCrush
       end
 
       new_ws.save
+
+      # add the locked row to the top of the sheet
+      spreadsheet = self[:session].spreadsheet_by_key(self[:spreadsheet_id])
+      spreadsheet.batch_update(
+        [ { update_sheet_properties:
+            {
+              fields: "gridProperties.frozenRowCount",
+              properties:
+              {
+                sheet_id: new_ws.sheet_id,
+                grid_properties: {
+                  frozen_row_count: 1
+                }
+              }
+            }
+        } ] )
+      new_ws.reload
 
       rescue AlreadyDid
         return false # failure
