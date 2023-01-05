@@ -1,5 +1,5 @@
 module Params
-  @@google_sheet_id   = FIXME # "1_HOdAPlujN2IuxQKpRW99GKU7hz7in2QpLHQZjjgpn4"
+  @@google_sheet_id   = "1tMmxiNSKRCWBVqUuSg6z-rA4k3JtFlUFaFleI62LqmI"
   @@scrub_event_id    = "0058"
   @@previous_event_id = "0057"
 
