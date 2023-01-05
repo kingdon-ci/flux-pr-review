@@ -1,8 +1,8 @@
 # syntax = docker.io/docker/dockerfile:experimental
-FROM kingdonb/rvm-ruby3:e9eab721 as builder-base
+FROM kingdonb/rvm-supported:09af3276 as builder-base
 LABEL maintainer="Kingdon Barrett <kingdon@weave.works>"
 ENV APPDIR="/home/${RVM_USER}/app"
-ENV RUBY=3.1.3
+ENV RUBY=3.0.5
 ENV GEMSET=testing
 
 USER root
