@@ -105,7 +105,7 @@ module BugCrush
                 end_column_index: ws.num_cols
               },
               sort_specs: [
-                { dimension_index: 9, sort_order: "ASCENDING"}
+                { dimension_index: 8, sort_order: "ASCENDING"}
               ]
             }
         } ] )
