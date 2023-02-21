@@ -9,7 +9,7 @@ gem 'graphql-client'
 
 group :development, :test do
   gem "pry-rails"
-  gem "rspec-rails", "~> 5.0.0"
+  gem "rspec-rails", "~> 6.0.0"
 end
 # gem 'sorbet', :group => :development
 # gem 'sorbet-runtime'
