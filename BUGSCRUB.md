@@ -56,7 +56,7 @@ The rest of the steps are for verification, they are not order-critical:
 - Clear and set the filters on the new worksheet, (they will not update themselves)
    Column F - State: open
    Column B - Type: Issue, Discussion
-   Column G - Created: Date is after exact date 2022-03-15 (date format - eg. a date less than 6 months ago)
+   Column G - Created: Date is after exact date 2022-09-30 (date format - eg. a date less than 6 months ago)
    Column H - Updated: Date is before (yesterday) to not worry about issues that are not stale at all yet
 
 - Hide columns G,H & J,K & M and get your big monitor ready, (the whole width of the sheet should fit well now)
