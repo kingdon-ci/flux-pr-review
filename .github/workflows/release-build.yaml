@@ -28,7 +28,7 @@ jobs:
         id: prep
         run: |
           GIT_TAG=${GITHUB_REF/refs\/tags\/release\//}
-          echo ::set-output name=GIT_TAG::${GIT_TAG}
+          echo GIT_TAG=${GIT_TAG} >> $GITHUB_OUTPUT
 
       - name: Login to GHCR
         uses: docker/login-action@v2
