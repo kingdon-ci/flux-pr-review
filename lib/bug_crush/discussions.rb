@@ -40,6 +40,8 @@ module BugCrush
       page11 = Client.query(AllDiscussions, variables: {after:c_p11, perPage:per_page})
       c_p12 = page11.data.repository.discussions.page_info.end_cursor
       page12 = Client.query(AllDiscussions, variables: {after:c_p12, perPage:per_page})
+      c_p13 = page12.data.repository.discussions.page_info.end_cursor
+      page13 = Client.query(AllDiscussions, variables: {after:c_p13, perPage:per_page})
 
       # raise StandardError, "no data:\nMake sure that GITHUB_TOKEN is set properly." unless
       #   page1&.present? &&
@@ -50,7 +52,7 @@ module BugCrush
 
       max_count = 1199
 
-      if page12.data.repository.discussions.total_count > max_count
+      if page13.data.repository.discussions.total_count > max_count
         puts "The Flux Discussions have grown again! Add another page\n"
           + "to the horrible code that implements 'paging' for next week,\n"
           + "and bump the max_count variable up by another #{per_page}."
@@ -68,7 +70,8 @@ module BugCrush
         page9&.present? &&
         page10&.present? &&
         page11&.present? &&
-        page12&.present?
+        page12&.present? &&
+        page13&.present?
 
         page1.data.repository.discussions.nodes \
         + page2.data.repository.discussions.nodes \
@@ -81,7 +84,8 @@ module BugCrush
         + page9.data.repository.discussions.nodes \
         + page10.data.repository.discussions.nodes \
         + page11.data.repository.discussions.nodes \
-        + page12.data.repository.discussions.nodes
+        + page12.data.repository.discussions.nodes \
+        + page13.data.repository.discussions.nodes
 
     rescue NoMethodError, StandardError
       raise StandardError, "no data:\nMake sure that GITHUB_TOKEN is set properly."
