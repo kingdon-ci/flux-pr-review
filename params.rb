@@ -1,7 +1,7 @@
 module Params
-  @@google_sheet_id   = "1GLb74u25SofsdWv1DYqSmbrE0BN4UZI94z3AzbkLNpQ"
-  @@scrub_event_id    = "0077"
-  @@previous_event_id = "0076"
+  @@google_sheet_id   = "1jy0iDjBp9X14ChEPetyV6fwZTY08inWexqpjvdW7tYM"
+  @@scrub_event_id    = "0078"
+  @@previous_event_id = "0077"
 
   def google_sheet_id
     @@google_sheet_id
