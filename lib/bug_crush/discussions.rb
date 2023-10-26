@@ -38,6 +38,12 @@ module BugCrush
       page10 = Client.query(AllDiscussions, variables: {after:c_p10, perPage:per_page})
       c_p11 = page10.data.repository.discussions.page_info.end_cursor
       page11 = Client.query(AllDiscussions, variables: {after:c_p11, perPage:per_page})
+      c_p12 = page11.data.repository.discussions.page_info.end_cursor
+      page12 = Client.query(AllDiscussions, variables: {after:c_p12, perPage:per_page})
+      c_p13 = page12.data.repository.discussions.page_info.end_cursor
+      page13 = Client.query(AllDiscussions, variables: {after:c_p13, perPage:per_page})
+      c_p14 = page13.data.repository.discussions.page_info.end_cursor
+      page14 = Client.query(AllDiscussions, variables: {after:c_p14, perPage:per_page})
 
       # raise StandardError, "no data:\nMake sure that GITHUB_TOKEN is set properly." unless
       #   page1&.present? &&
@@ -46,9 +52,9 @@ module BugCrush
       #   page4&.present? &&
       #   page5&.present?
 
-      max_count = 1099
+      max_count = 1299
 
-      if page11.data.repository.discussions.total_count > max_count
+      if page14.data.repository.discussions.total_count > max_count
         puts "The Flux Discussions have grown again! Add another page\n"
           + "to the horrible code that implements 'paging' for next week,\n"
           + "and bump the max_count variable up by another #{per_page}."
@@ -65,7 +71,10 @@ module BugCrush
         page8&.present? &&
         page9&.present? &&
         page10&.present? &&
-        page11&.present?
+        page11&.present? &&
+        page12&.present? &&
+        page13&.present? &&
+        page14&.present?
 
         page1.data.repository.discussions.nodes \
         + page2.data.repository.discussions.nodes \
@@ -77,7 +86,10 @@ module BugCrush
         + page8.data.repository.discussions.nodes \
         + page9.data.repository.discussions.nodes \
         + page10.data.repository.discussions.nodes \
-        + page11.data.repository.discussions.nodes
+        + page11.data.repository.discussions.nodes \
+        + page12.data.repository.discussions.nodes \
+        + page13.data.repository.discussions.nodes \
+        + page14.data.repository.discussions.nodes
 
     rescue NoMethodError, StandardError
       raise StandardError, "no data:\nMake sure that GITHUB_TOKEN is set properly."
