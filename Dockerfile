@@ -1,5 +1,5 @@
 # syntax = docker.io/docker/dockerfile:experimental
-FROM kingdonb/rvm-supported:7783e7b8 as builder-base
+FROM kingdonb/rvm-supported:d6462629 as builder-base
 LABEL maintainer="Kingdon Barrett <kingdon@weave.works>"
 ENV APPDIR="/home/${RVM_USER}/app"
 ENV RUBY=3.3.0
