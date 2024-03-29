@@ -1,3 +1,7 @@
+# ARCHIVED
+
+Forked from: [kingdon-ci/flux-pr-review](https://github.com/kingdon-ci/flux-pr-review) - the maintenance can continue in the org. This fork is frozen and archived. This repo does not work anymore.
+
 ### Flux Bug Scrub
 
 For details about the Bug Scrub prep and how to run `make` (what to do
